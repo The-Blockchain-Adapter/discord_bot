@@ -8,7 +8,7 @@ const keepAlive = require("./server")
 //const token = process.env['token'] 
 
 //With VSCode, you have to use the following code to get the token:
-require('custom-env').env('staging')
+require('custom-env').env('development')
 token = process.env.TOKEN
 
 
