@@ -1,0 +1,15 @@
+// This file is just to make the bot stay online using uptimerobot.com
+const express = require("express")
+const server = express()
+
+server.all("/", (req, res) => {
+    res.send("Bot is running!")
+})
+
+function keepAlive() {
+    server.listen(3000, () => {
+        console.log("Server is alive.")
+    })
+}
+
+module.exports = keepAlive
