@@ -14,7 +14,7 @@ module.exports = {
         const balance = ethers.utils.formatEther(await provider.getBalance(address));
 
         await interaction.reply({
-            content: `${address} has ${balance}ETH on Ethereum ${blockchain}`
+            content: `${address} has ${balance} ETH on Ethereum ${blockchain}`
         });
     },
 };
