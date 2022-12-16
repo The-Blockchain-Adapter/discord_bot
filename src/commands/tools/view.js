@@ -6,6 +6,8 @@ const {
 	TextInputStyle,
 } = require("discord.js");
 
+const database = require("../../../mess/databaseExample.json");
+
 // Command details
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -22,7 +24,18 @@ module.exports = {
 	// Execute a command with values to enter
 	async autocomplete(interaction, client) {
 		const focusedValue = interaction.options.getFocused();
-		const choices = ["nft", "token", "metaverse"]; //BESOIN D'AJOUTER UN NOMBRE INFINI DE FONCTIONS / RETIRER CETTE LISTE DE LA DATABASE
+
+		const guildId = interaction.guildId;
+		const allTheViewFunctions = database[guildId].viewFunction;
+
+		//CHopper la liste des viewfonctions
+		var choices = [allTheViewFunctions.length];
+		for (i = 0; i < allTheViewFunctions.length; i++) {
+			choices[i] = allTheViewFunctions[i].name;
+		}
+
+		//= 4; //interaction.guild.id; //database[interaction.guild.id]//[("nft", "token", "metaverse")]; //BESOIN D'AJOUTER UN NOMBRE INFINI DE FONCTIONS / RETIRER CETTE LISTE DE LA DATABASE
+
 		const filtered = choices.filter((choice) => choice.startsWith(focusedValue));
 		await interaction.respond(filtered.map((choice) => ({ name: choice, value: choice })));
 	},
@@ -31,11 +44,7 @@ module.exports = {
 		const choosenFunction = interaction.options.getString("function"); //This gives the function the user want to call
 
 		//BESOIN D'AJOUTER UN NOMBRE INFINI DE FONCTIONS / RETIRER CETTE LISTE DE LA DATABASE
-		const functionsPossibilites = [
-			["nft", "hashtag"],
-			["token", "price"],
-			["metaverse", "world"],
-		];
+		//const { functionsPossibilites } = require("../../functionExamples.json");
 
 		//Check what is the function called / REPLACE THAT BY THE DIRECT MODAL CREATION
 		for (var i = 0; i < functionsPossibilites.length; i++) {
