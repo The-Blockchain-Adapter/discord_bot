@@ -5,6 +5,7 @@ const {
 	TextInputBuilder,
 	TextInputStyle,
 } = require("discord.js");
+const Guild = require("../../schemas/guild");
 
 // Command details
 module.exports = {
@@ -12,6 +13,16 @@ module.exports = {
 		.setName("balance")
 		.setDescription("Get the ETH Balance of a User"),
 	async execute(interaction, client) {
+		// Verify if this guild is on the database
+		const guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+		if (!guildProfile) {
+			await interaction.reply({
+				content: `Call the /init command before using other commands on the server.`,
+				ephemeral: true,
+			});
+			return;
+		}
+
 		// Create the modal
 		const modal = new ModalBuilder()
 			.setCustomId(`balance-reply`)

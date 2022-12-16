@@ -79,6 +79,26 @@ client.buttons = new Collection();
 client.selectMenus = new Collection();
 ```
 
-//////////////////////////////////////////////////////////////
+## databaseExample.json
 
-//////////////////////////////////////////////////////////////
+```json
+{
+	"1052170405378543687": {
+		"viewFunction": {
+			"nft": {
+				"name": "nft",
+				"abi": "",
+				"address": "",
+				"blockchain": "",
+				"textBefore": "",
+				"textAfter": "",
+				"whoCanCall": "",
+				"valuesToEnter": {
+					"1": "",
+					"2": ""
+				}
+			}
+		}
+	}
+}
+```

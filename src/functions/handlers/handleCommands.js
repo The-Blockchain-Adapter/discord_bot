@@ -1,6 +1,7 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
 const fs = require("fs");
+const chalk = require("chalk");
 
 // Honnetement j'ai pas compris a quoi servais ce fichier
 module.exports = (client) => {
@@ -16,7 +17,7 @@ module.exports = (client) => {
 				const command = require(`../../commands/${folder}/${file}`);
 				commands.set(command.data.name, command);
 				commandArray.push(command.data.toJSON());
-				console.log(`Command: /${command.data.name} has been passed through the handler`);
+				//console.log(`Command: /${command.data.name} has been passed through the handler`);
 			}
 		}
 
@@ -27,7 +28,7 @@ module.exports = (client) => {
 			await rest.put(Routes.applicationCommands(clientId), {
 				body: client.commandArray,
 			});
-			console.log("Successfully reloaded application commands.");
+			console.log(chalk.cyan("Successfully loaded application commands."));
 		} catch (error) {
 			console.error(error);
 		}

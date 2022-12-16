@@ -5,8 +5,7 @@ const {
 	TextInputBuilder,
 	TextInputStyle,
 } = require("discord.js");
-
-const database = require("../../../mess/databaseExample.json");
+const Guild = require("../src/schemas/guild");
 
 // Command details
 module.exports = {
@@ -20,9 +19,19 @@ module.exports = {
 				.setAutocomplete(true)
 				.setRequired(true)
 		),
-
 	// Execute a command with values to enter
 	async autocomplete(interaction, client) {
+		// Verify if this guild is on the database
+		let guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+		if (!guildProfile) {
+			await interaction.reply({
+				content: `Call the /init command before using other commands on the server.`,
+				ephemeral: true,
+			});
+			return;
+		}
+
+		/*
 		const focusedValue = interaction.options.getFocused();
 
 		const guildId = interaction.guildId;
@@ -38,9 +47,11 @@ module.exports = {
 
 		const filtered = choices.filter((choice) => choice.startsWith(focusedValue));
 		await interaction.respond(filtered.map((choice) => ({ name: choice, value: choice })));
+		*/
 	},
 
 	async execute(interaction, client) {
+		/*
 		const choosenFunction = interaction.options.getString("function"); //This gives the function the user want to call
 
 		//BESOIN D'AJOUTER UN NOMBRE INFINI DE FONCTIONS / RETIRER CETTE LISTE DE LA DATABASE
@@ -69,6 +80,7 @@ module.exports = {
 				//Show the modal
 				await interaction.showModal(modal);
 			}
-		}
+				*/
+		return;
 	},
 };
