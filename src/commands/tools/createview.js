@@ -4,6 +4,7 @@ const {
 	ActionRowBuilder,
 	TextInputBuilder,
 	TextInputStyle,
+	PermissionFlagsBits,
 } = require("discord.js");
 const Guild = require("../../schemas/guild");
 
@@ -11,7 +12,8 @@ const Guild = require("../../schemas/guild");
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("createview")
-		.setDescription("Create a new view function"),
+		.setDescription("Create a new view function")
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction, client) {
 		// Verify if this guild is on the database
 		const guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
@@ -26,7 +28,7 @@ module.exports = {
 		// Create the modal
 		const modal = new ModalBuilder()
 			.setCustomId(`createview-2`)
-			.setTitle(`Create a new view function 1/2`);
+			.setTitle(`Create a new view function`);
 
 		// Create all the components of the modal
 		const name = new TextInputBuilder()
@@ -39,19 +41,23 @@ module.exports = {
 			.setCustomId("AddressInput")
 			.setLabel(`Address`)
 			.setRequired(true)
-			.setStyle(TextInputStyle.Short);
+			.setStyle(TextInputStyle.Short)
+			.setMaxLength(42);
 
 		const blockchain = new TextInputBuilder()
 			.setCustomId("BlockchainInput")
 			.setLabel(`Blockchain`)
+			.setValue("mainnet")
 			.setPlaceholder("mainnet / goerli / sepolia")
 			.setRequired(true)
-			.setStyle(TextInputStyle.Short);
+			.setStyle(TextInputStyle.Short)
+			.setMaxLength(7);
 
-		const needAdmin = new TextInputBuilder()
-			.setCustomId("NeedAdminInput")
-			.setLabel(`Only allow admins to call it`)
-			.setPlaceholder("true / false")
+		const text = new TextInputBuilder()
+			.setCustomId("TextInput")
+			.setLabel(`Text written around the result`)
+			.setPlaceholder("...  ${data}  ...")
+			.setValue("...  ${data}  ...")
 			.setRequired(true)
 			.setStyle(TextInputStyle.Short);
 
@@ -65,7 +71,7 @@ module.exports = {
 		modal.addComponents(new ActionRowBuilder().addComponents(name));
 		modal.addComponents(new ActionRowBuilder().addComponents(address));
 		modal.addComponents(new ActionRowBuilder().addComponents(blockchain));
-		modal.addComponents(new ActionRowBuilder().addComponents(needAdmin));
+		modal.addComponents(new ActionRowBuilder().addComponents(text));
 		modal.addComponents(new ActionRowBuilder().addComponents(abi));
 		await interaction.showModal(modal);
 	},

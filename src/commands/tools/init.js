@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const Guild = require("../../schemas/guild");
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", true);
@@ -6,7 +6,8 @@ mongoose.set("strictQuery", true);
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("init")
-		.setDescription("Initialise The Blockchain Adapter for this server"),
+		.setDescription("Initialise The Blockchain Adapter for this server")
+		.setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 	async execute(interaction, client) {
 		let guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
 

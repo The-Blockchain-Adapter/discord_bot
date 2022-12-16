@@ -10,33 +10,17 @@ module.exports = {
 		const name = interaction.fields.getTextInputValue("NameInput");
 		const address = interaction.fields.getTextInputValue("AddressInput");
 		const blockchain = interaction.fields.getTextInputValue("BlockchainInput");
-		const needAdmin = interaction.fields.getTextInputValue("NeedAdminInput");
+		const text = interaction.fields.getTextInputValue("TextInput");
 		const abi = interaction.fields.getTextInputValue("AbiInput");
 
-		// TRANSFER THE DATA TO THE 3rd PART
-		await interaction.reply({ content: "helo" });
+		// REALLY STORE THE DATA
 
-		// Create the 2nd part of the modal
-		const modal2 = new ModalBuilder()
-			.setCustomId(`createview-3`)
-			.setTitle(`Create a new view function 2/2`);
+		// GET THE VALUES TO ENTER
+		// start at the first "(" from the line of the function, and end a the next ")"
+		//look at a real abi to see
 
-		// Create all the components of the modal
-		const textBefore = new TextInputBuilder()
-			.setCustomId("TextBeforeInput")
-			.setLabel(`Text before saying the result`)
-			.setRequired(false)
-			.setStyle(TextInputStyle.Short);
-
-		const textAfter = new TextInputBuilder()
-			.setCustomId("TextAfterInput")
-			.setLabel(`Text after saying the result`)
-			.setRequired(false)
-			.setStyle(TextInputStyle.Short);
-
-		// Add the components and show the modal
-		modal2.addComponents(new ActionRowBuilder().addComponents(textBefore));
-		modal2.addComponents(new ActionRowBuilder().addComponents(textAfter));
-		await interaction.showModal(modal2);
+		await interaction.reply({
+			content: `The function ${name} has been added successfully!\nYou can now call it using the command  /view ${name}`,
+		});
 	},
 };
