@@ -6,7 +6,7 @@ mongoose.set("strictQuery", true);
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("init")
-		.setDescription("Initialise the Bot for this server"),
+		.setDescription("Initialise The Blockchain Adapter for this server"),
 	async execute(interaction, client) {
 		let guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
 

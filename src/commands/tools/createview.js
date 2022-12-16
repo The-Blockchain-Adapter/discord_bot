@@ -10,8 +10,8 @@ const Guild = require("../../schemas/guild");
 // Command details
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName("balance")
-		.setDescription("Get the ETH Balance of a User"),
+		.setName("createview")
+		.setDescription("Create a new view function"),
 	async execute(interaction, client) {
 		// Verify if this guild is on the database
 		const guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
@@ -25,17 +25,22 @@ module.exports = {
 
 		// Create the modal
 		const modal = new ModalBuilder()
-			.setCustomId(`balance-2`)
-			.setTitle(`Get the ETH Balance of a User`);
+			.setCustomId(`createview-2`)
+			.setTitle(`Create a new view function 1/2`);
 
-		// Create the address component
-		const address = new TextInputBuilder()
-			.setCustomId("AddressInput")
-			.setLabel(`ETH Address or ENS name`)
+		// Create all the components of the modal
+		const name = new TextInputBuilder()
+			.setCustomId("NameInput")
+			.setLabel(`Function name`)
 			.setRequired(true)
 			.setStyle(TextInputStyle.Short);
 
-		// Create the blockchain component
+		const address = new TextInputBuilder()
+			.setCustomId("AddressInput")
+			.setLabel(`Address`)
+			.setRequired(true)
+			.setStyle(TextInputStyle.Short);
+
 		const blockchain = new TextInputBuilder()
 			.setCustomId("BlockchainInput")
 			.setLabel(`Blockchain`)
@@ -43,9 +48,25 @@ module.exports = {
 			.setRequired(true)
 			.setStyle(TextInputStyle.Short);
 
+		const needAdmin = new TextInputBuilder()
+			.setCustomId("NeedAdminInput")
+			.setLabel(`Only allow admins to call it`)
+			.setPlaceholder("true / false")
+			.setRequired(true)
+			.setStyle(TextInputStyle.Short);
+
+		const abi = new TextInputBuilder()
+			.setCustomId("AbiInput")
+			.setLabel(`ABI`)
+			.setRequired(true)
+			.setStyle(TextInputStyle.Paragraph);
+
 		// Add the components and show the modal
+		modal.addComponents(new ActionRowBuilder().addComponents(name));
 		modal.addComponents(new ActionRowBuilder().addComponents(address));
 		modal.addComponents(new ActionRowBuilder().addComponents(blockchain));
+		modal.addComponents(new ActionRowBuilder().addComponents(needAdmin));
+		modal.addComponents(new ActionRowBuilder().addComponents(abi));
 		await interaction.showModal(modal);
 	},
 };

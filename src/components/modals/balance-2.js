@@ -4,7 +4,7 @@ const INFURA_KEY = process.env.INFURA_KEY;
 // Once the user enter the values in the balance modal, this script runs
 module.exports = {
 	data: {
-		name: `balance-reply`,
+		name: `balance-2`,
 	},
 	async execute(interaction, client) {
 		// Get the values entered in the modal
