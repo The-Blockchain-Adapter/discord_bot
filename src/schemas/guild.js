@@ -21,3 +21,4 @@ const guildSchema = new Schema({
 });
 
 module.exports = model("Guild", guildSchema, "guilds");
+module.exports = model("ViewFunction", viewFunctionSchema, "viewFunctions");
