@@ -13,11 +13,22 @@ module.exports = {
 
 		//Check if the guildProfile has already been created. If not, create it
 		if (!guildProfile) {
-			guildProfile = await new Guild({
+			guildProfile = new Guild({
 				_id: mongoose.Types.ObjectId(),
 				guildId: interaction.guild.id,
 				guildName: interaction.guild.name,
 				guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None.",
+				viewFunctions: [
+					{
+						_id: mongoose.Types.ObjectId(),
+						name: "test",
+						address: "test",
+						blockchain: "test",
+						text: "test",
+						abi: "test",
+						//valuesToEnter: [{ test1: "test2" }], //UPDATE
+					},
+				],
 			});
 			await guildProfile.save().catch(console.error);
 			await interaction.reply({
