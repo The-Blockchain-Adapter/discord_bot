@@ -1,3 +1,4 @@
 mess_to_delete
 node_modules
 .env
+images

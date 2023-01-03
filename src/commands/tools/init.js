@@ -18,17 +18,6 @@ module.exports = {
 				guildId: interaction.guild.id,
 				guildName: interaction.guild.name,
 				guildIcon: interaction.guild.iconURL() ? interaction.guild.iconURL() : "None.",
-				viewFunctions: [
-					{
-						_id: mongoose.Types.ObjectId(),
-						name: "test",
-						address: "test",
-						blockchain: "test",
-						text: "test",
-						abi: "test",
-						//valuesToEnter: [{ test1: "test2" }], //UPDATE
-					},
-				],
 			});
 			await guildProfile.save().catch(console.error);
 			await interaction.reply({
