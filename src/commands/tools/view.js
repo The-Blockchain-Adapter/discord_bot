@@ -6,6 +6,7 @@ const {
 	TextInputStyle,
 } = require("discord.js");
 const Guild = require("../../schemas/guild");
+const { ethers } = require("ethers");
 
 // Command details
 module.exports = {
@@ -20,11 +21,10 @@ module.exports = {
 				.setRequired(true)
 		),
 
-	// Execute a command with values to enter
+	// Get the function names to autocomplete the command
 	async autocomplete(interaction, client) {
 		// Verify if this guild is on the database
-		const guildId = interaction.guild.id;
-		const guildProfile = await Guild.findOne({ guildId });
+		const guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
 		if (!guildProfile) {
 			return;
 		}
@@ -43,37 +43,80 @@ module.exports = {
 	},
 
 	async execute(interaction, client) {
-		/*
-		
-		const choosenFunction = interaction.options.getString("function"); //This gives the function the user want to call
+		// Verify if this guild is on the database
+		const guildProfile = await Guild.findOne({ guildId: interaction.guild.id });
+		if (!guildProfile) {
+			await interaction.reply({
+				content: `Call the /init command before using other commands on the server.`,
+				ephemeral: true,
+			});
+			return;
+		}
 
-		//BESOIN D'AJOUTER UN NOMBRE INFINI DE FONCTIONS / RETIRER CETTE LISTE DE LA DATABASE
-		//const { functionsPossibilites } = require("../../functionExamples.json");
-
-		//Check what is the function called / REPLACE THAT BY THE DIRECT MODAL CREATION
-		for (var i = 0; i < functionsPossibilites.length; i++) {
-			if (choosenFunction == functionsPossibilites[i][0]) {
-				// Create the modal
-				const modal = new ModalBuilder()
-					.setCustomId(choosenFunction)
-					.setTitle(`Call the ${choosenFunction} view function`);
-
-				// Add values to enter in the modal
-				for (var component = 0; component < 2; component++) {
-					const input = new TextInputBuilder()
-						.setCustomId(functionsPossibilites[component][1])
-						.setLabel(`Enter the ${functionsPossibilites[component][1]}`)
-						.setRequired(true)
-						.setStyle(TextInputStyle.Short);
-
-					//Add this component to the modal
-					modal.addComponents(new ActionRowBuilder().addComponents(input));
-				}
-
-				//Show the modal
-				await interaction.showModal(modal);
+		// Verify if this function is registered on the server
+		const viewFunctions = guildProfile.viewFunctions;
+		var currentFunction = null;
+		for (i = 0; i < viewFunctions.length; i++) {
+			if (viewFunctions[i].name == interaction.options.getString("function")) {
+				currentFunction = viewFunctions[i];
 			}
-				*/
-		return;
+		}
+		if (!currentFunction) {
+			await interaction.reply({
+				content: `This function is not registered on the server.`,
+				ephemeral: true,
+			});
+			return;
+		}
+
+		// Create the modal to get the inputs of the function
+		if (currentFunction.valuesToEnter.length > 0) {
+			const modal = new ModalBuilder()
+				.setCustomId(`view-2`)
+				.setTitle(`Call the ${currentFunction.name} view function`);
+
+			// Add values to enter in the modal
+			for (
+				var inputNumber = 0;
+				inputNumber < currentFunction.valuesToEnter.length;
+				inputNumber++
+			) {
+				const input = new TextInputBuilder()
+					.setCustomId(currentFunction.valuesToEnter[inputNumber].name)
+					.setLabel(
+						`Enter the ${currentFunction.valuesToEnter[inputNumber].name} (type: ${currentFunction.valuesToEnter[inputNumber].type})`
+					)
+					.setRequired(true)
+					.setStyle(TextInputStyle.Short);
+
+				//Add this component to the modal
+				modal.addComponents(new ActionRowBuilder().addComponents(input));
+			}
+
+			//Show the modal
+			await interaction.showModal(modal);
+			return;
+
+			// Call the function without any input
+		} else {
+			const INFURA_KEY = process.env.INFURA_KEY;
+			const provider = new ethers.providers.JsonRpcProvider(
+				`https://${currentFunction.blockchain}.infura.io/v3/${INFURA_KEY}`
+			);
+
+			const abi = ["function totalSupply() view returns (uint256)"];
+
+			const contract = new ethers.Contract(currentFunction.address, abi, provider);
+
+			const data = await contract[currentFunction.name]();
+			console.log(data);
+
+			//Send the result
+			await interaction.reply({
+				content: data.toString(),
+			});
+			return;
+		}
 	},
 };
+["function totalSupply() view returns (uint256)"];

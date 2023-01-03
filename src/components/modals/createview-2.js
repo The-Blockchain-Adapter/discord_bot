@@ -52,7 +52,7 @@ module.exports = {
 
 		// Send a message to the user
 		await interaction.reply({
-			content: `The function ${name} has been added successfully!\nYou can now call it using the command:\n/view ${name}`,
+			content: `The function ${name} has been added successfully!\nYou can now call it using the command:\n/view function:${name}`,
 		});
 	},
 };

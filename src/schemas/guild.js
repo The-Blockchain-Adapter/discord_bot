@@ -2,13 +2,18 @@ const { Schema, model } = require("mongoose");
 
 const requiredString = { type: String, required: true };
 
+const inputSchema = new Schema({
+	name: requiredString,
+	type: requiredString,
+});
+
 const viewFunctionSchema = new Schema({
 	name: requiredString,
 	address: requiredString,
 	blockchain: requiredString,
 	text: requiredString,
 	abi: requiredString,
-	valuesToEnter: { type: [String], required: false },
+	valuesToEnter: { type: [inputSchema], required: false },
 });
 
 const guildSchema = new Schema({

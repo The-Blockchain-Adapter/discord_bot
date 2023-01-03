@@ -8,5 +8,5 @@
 
     ```terminal
     npm i
-    npm run start
+    node .
     ```
