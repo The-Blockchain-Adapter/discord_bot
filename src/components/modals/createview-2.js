@@ -36,7 +36,7 @@ module.exports = {
 			blockchain,
 			text,
 			abi,
-			valuesToEnter: [{ test1: "test2" }], //UPDATE
+			//valuesToEnter: [{ test1: "test2" }], //UPDATE
 		};
 		viewFunctions.push(newFunction);
 
