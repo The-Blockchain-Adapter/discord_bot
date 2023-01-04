@@ -56,14 +56,14 @@ module.exports = {
 		const text = new TextInputBuilder()
 			.setCustomId("TextInput")
 			.setLabel(`Text written around the result`)
-			.setPlaceholder("...  ${data}  ...")
-			.setValue("...  ${data}  ...")
+			.setPlaceholder("... #DATA# ...")
+			.setValue("... #DATA# ...")
 			.setRequired(true)
 			.setStyle(TextInputStyle.Short);
 
 		const abi = new TextInputBuilder()
 			.setCustomId("AbiInput")
-			.setLabel(`ABI`)
+			.setLabel(`ABI in JSON format`)
 			.setRequired(true)
 			.setStyle(TextInputStyle.Paragraph);
 

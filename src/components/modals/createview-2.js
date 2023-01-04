@@ -24,10 +24,26 @@ module.exports = {
 			});
 			return;
 		}
-
+		/*
 		// GET THE VALUES TO ENTER
-		// start at the first "(" from the line of the function, and end a the next ")"
-		//look at a real abi to see
+		var valuesToEnter = [];
+		const cleanABI = abi.replace(/\\/g, "");
+		const parsedABI = JSON.parse(cleanABI);
+		//Loop through all the ABI to find the right function
+		for (i = 0; i < parsedABI.length; i++) {
+			if (parsedABI[i].name == name) {
+				//Get the inputs
+				const inputs = parsedABI[i].inputs;
+				//Loop through all the inputs to get the name and type
+				for (j = 0; j < inputs.length; j++) {
+					const inputName = inputs[j].name;
+					const inputType = inputs[j].type;
+					//Add the input to the valuesToEnter array
+					valuesToEnter.push({ name: inputName, type: inputType });
+				}
+			}
+		}
+		*/
 
 		// Assemble and add the new fonction to the array
 		const newFunction = {
@@ -36,7 +52,7 @@ module.exports = {
 			blockchain,
 			text,
 			abi,
-			//valuesToEnter: [{ test1: "test2" }], //UPDATE
+			//valuesToEnter,
 		};
 		viewFunctions.push(newFunction);
 

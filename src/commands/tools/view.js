@@ -99,24 +99,25 @@ module.exports = {
 
 			// Call the function without any input
 		} else {
+			// Connect to the blockchain
 			const INFURA_KEY = process.env.INFURA_KEY;
 			const provider = new ethers.providers.JsonRpcProvider(
 				`https://${currentFunction.blockchain}.infura.io/v3/${INFURA_KEY}`
 			);
+			const abi = currentFunction.abi.replace(/\\/g, "");
 
-			const abi = ["function totalSupply() view returns (uint256)"];
-
+			// Call the function
 			const contract = new ethers.Contract(currentFunction.address, abi, provider);
-
 			const data = await contract[currentFunction.name]();
-			console.log(data);
 
 			//Send the result
-			await interaction.reply({
-				content: data.toString(),
-			});
+			const text = currentFunction.text;
+			const content =
+				text.substring(0, text.indexOf("#")) +
+				data.toString() +
+				text.substring(text.lastIndexOf("#") + 1, text.length);
+			await interaction.reply({ content });
 			return;
 		}
 	},
 };
-["function totalSupply() view returns (uint256)"];
