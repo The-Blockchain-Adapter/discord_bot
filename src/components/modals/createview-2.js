@@ -24,8 +24,8 @@ module.exports = {
 			});
 			return;
 		}
-		/*
-		// GET THE VALUES TO ENTER
+
+		// Get the inputs of the function
 		var valuesToEnter = [];
 		const cleanABI = abi.replace(/\\/g, "");
 		const parsedABI = JSON.parse(cleanABI);
@@ -43,7 +43,6 @@ module.exports = {
 				}
 			}
 		}
-		*/
 
 		// Assemble and add the new fonction to the array
 		const newFunction = {
@@ -52,7 +51,7 @@ module.exports = {
 			blockchain,
 			text,
 			abi,
-			//valuesToEnter,
+			valuesToEnter,
 		};
 		viewFunctions.push(newFunction);
 
@@ -67,8 +66,13 @@ module.exports = {
 		);
 
 		// Send a message to the user
+		const content =
+			`The function ${name} has been added successfully!\nYou can now call it using the command:\n` +
+			"`/view function:" +
+			name +
+			"`";
 		await interaction.reply({
-			content: `The function ${name} has been added successfully!\nYou can now call it using the command:\n/view function:${name}`,
+			content,
 		});
 	},
 };

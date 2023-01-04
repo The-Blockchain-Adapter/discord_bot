@@ -75,16 +75,26 @@ module.exports = {
 				.setCustomId(`view-2`)
 				.setTitle(`Call the ${currentFunction.name} view function`);
 
+			//Enter the function name in the modal to call it later
+			const functionName = new TextInputBuilder()
+				.setCustomId("functionName")
+				.setLabel(`Function name (Do not change this value)`)
+				.setPlaceholder(currentFunction.name)
+				.setValue(currentFunction.name)
+				.setRequired(true)
+				.setStyle(TextInputStyle.Short);
+			modal.addComponents(new ActionRowBuilder().addComponents(functionName));
+
 			// Add values to enter in the modal
 			for (
 				var inputNumber = 0;
-				inputNumber < currentFunction.valuesToEnter.length;
+				inputNumber < currentFunction.valuesToEnter.length && inputNumber < 4;
 				inputNumber++
 			) {
 				const input = new TextInputBuilder()
-					.setCustomId(currentFunction.valuesToEnter[inputNumber].name)
+					.setCustomId(inputNumber + " ")
 					.setLabel(
-						`Enter the ${currentFunction.valuesToEnter[inputNumber].name} (type: ${currentFunction.valuesToEnter[inputNumber].type})`
+						`${currentFunction.valuesToEnter[inputNumber].name} (type: ${currentFunction.valuesToEnter[inputNumber].type})`
 					)
 					.setRequired(true)
 					.setStyle(TextInputStyle.Short);
