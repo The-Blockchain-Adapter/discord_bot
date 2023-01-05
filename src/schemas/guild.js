@@ -1,27 +1,39 @@
 const { Schema, model } = require("mongoose");
 
 const requiredString = { type: String, required: true };
+const requiredBoolean = { type: Boolean, required: true };
 
-const inputSchema = new Schema({
-	name: requiredString,
+const dataSchema = new Schema({
 	type: requiredString,
+	functionName: String,
+	address: String,
+	blockchain: String,
+	text: String,
+	abi: String,
+	inputs: [String],
 });
 
-const viewFunctionSchema = new Schema({
+const actionSchema = new Schema({
+	type: requiredString,
+	text: String,
+});
+
+const commandSchema = new Schema({
 	name: requiredString,
-	address: requiredString,
-	blockchain: requiredString,
-	text: requiredString,
-	abi: requiredString,
-	valuesToEnter: { type: [inputSchema], required: false },
+	onlyAdmin: requiredBoolean,
+	modal: requiredBoolean,
+	modalTitle: String,
+	modalInputs: [String],
+	data: [dataSchema],
+	action: { type: [actionSchema], required: true },
 });
 
 const guildSchema = new Schema({
 	_id: Schema.Types.ObjectId,
 	guildId: requiredString,
 	guildName: requiredString,
-	guildIcon: { type: String, required: false },
-	viewFunctions: { type: [viewFunctionSchema], required: false },
+	guildIcon: String,
+	commands: [commandSchema],
 });
 
 module.exports = model("Guild", guildSchema, "guilds");
