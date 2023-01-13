@@ -8,9 +8,9 @@ const dataSchema = new Schema({
 	functionName: String,
 	address: String,
 	blockchain: String,
-	text: String,
 	abi: String,
 	inputs: [String],
+	output: String,
 });
 
 const actionSchema = new Schema({
@@ -21,9 +21,9 @@ const actionSchema = new Schema({
 const commandSchema = new Schema({
 	name: requiredString,
 	onlyAdmin: requiredBoolean,
-	modal: requiredBoolean,
 	modalTitle: String,
 	modalInputs: [String],
+	modalOutputs: [String],
 	data: [dataSchema],
 	action: { type: [actionSchema], required: true },
 });

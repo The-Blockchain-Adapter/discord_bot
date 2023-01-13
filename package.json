@@ -2,7 +2,6 @@
 	"name": "discord_bot",
 	"author": "Noé Pecci",
 	"version": "1.0.0",
-	"description": "",
 	"main": "src/bot.js",
 	"scripts": {
 		"start": "node ."
