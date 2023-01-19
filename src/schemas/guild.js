@@ -13,7 +13,7 @@ const triggerSchema = new Schema({
 
 const dataSchema = new Schema({
 	type: requiredString,
-	functionName: String,
+	name: String,
 	address: String,
 	blockchain: String,
 	abi: String,
@@ -34,9 +34,9 @@ const scriptSchema = new Schema({
 
 const guildSchema = new Schema({
 	_id: Schema.Types.ObjectId,
-	guildId: requiredString,
-	guildName: requiredString,
-	guildIcon: String,
+	discordId: requiredString,
+	name: requiredString,
+	icon: String,
 	scripts: [scriptSchema],
 });
 
