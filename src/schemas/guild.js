@@ -1,7 +1,15 @@
 const { Schema, model } = require("mongoose");
 
 const requiredString = { type: String, required: true };
-const requiredBoolean = { type: Boolean, required: true };
+
+const triggerSchema = new Schema({
+	type: requiredString,
+	name: String,
+	onlyAdmin: Boolean,
+	modalTitle: String,
+	modalInputs: [String],
+	modalOutputs: [String],
+});
 
 const dataSchema = new Schema({
 	type: requiredString,
@@ -18,12 +26,8 @@ const actionSchema = new Schema({
 	text: String,
 });
 
-const commandSchema = new Schema({
-	name: requiredString,
-	onlyAdmin: requiredBoolean,
-	modalTitle: String,
-	modalInputs: [String],
-	modalOutputs: [String],
+const scriptSchema = new Schema({
+	trigger:  { type: triggerSchema, required: true },
 	data: [dataSchema],
 	action: { type: [actionSchema], required: true },
 });
@@ -33,7 +37,7 @@ const guildSchema = new Schema({
 	guildId: requiredString,
 	guildName: requiredString,
 	guildIcon: String,
-	commands: [commandSchema],
+	scripts: [scriptSchema],
 });
 
 module.exports = model("Guild", guildSchema, "guilds");
