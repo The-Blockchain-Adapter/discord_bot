@@ -23,8 +23,19 @@ module.exports = {
 		} else if (interaction.type == InteractionType.ModalSubmit) {
 			const { modals } = client;
 			const { customId } = interaction;
-			const modal = modals.get(customId);
+
+			// If the modal is a script modal, get the script-2 modal
+			var modal;
+			if (customId.startsWith("script-")) {
+				modal = modals.get("script-2");
+			} else {
+				modal = modals.get(customId);
+			}
+
+			// If there is no code for this modal, return an error
 			if (!modal) return new Error("There is no code for this modal.");
+
+			// Execute the modal code
 			try {
 				await modal.execute(interaction, client);
 			} catch (error) {
