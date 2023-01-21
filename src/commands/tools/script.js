@@ -84,16 +84,16 @@ module.exports = {
 		}
 
 		// Create the modal to get the inputs of the function
-		if (command.trigger.modalInputs.length > 0) {
+		if (command.trigger.inputs.length > 0) {
 			const modal = new ModalBuilder()
 				.setCustomId(`script-${command.trigger.name}`)
-				.setTitle(`${command.trigger.modalTitle}`);
+				.setTitle(`${command.trigger.title}`);
 
 			// Add values to enter in the modal
-			for (var i = 0; i < command.trigger.modalInputs.length && i < 4; i++) {
+			for (var i = 0; i < command.trigger.inputs.length && i < 5; i++) {
 				const input = new TextInputBuilder()
-					.setCustomId(command.trigger.modalOutputs[i])
-					.setLabel(`${command.trigger.modalInputs[i]}`)
+					.setCustomId(command.trigger.outputs[i])
+					.setLabel(`${command.trigger.inputs[i]}`)
 					.setRequired(true)
 					.setStyle(TextInputStyle.Short);
 

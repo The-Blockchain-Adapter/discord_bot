@@ -6,9 +6,9 @@ const triggerSchema = new Schema({
 	type: requiredString,
 	name: String,
 	onlyAdmin: Boolean,
-	modalTitle: String,
-	modalInputs: [String],
-	modalOutputs: [String],
+	title: String,
+	inputs: [String],
+	outputs: [String],
 });
 
 const dataSchema = new Schema({
@@ -27,7 +27,7 @@ const actionSchema = new Schema({
 });
 
 const scriptSchema = new Schema({
-	trigger:  { type: triggerSchema, required: true },
+	trigger: { type: triggerSchema, required: true },
 	data: [dataSchema],
 	action: { type: [actionSchema], required: true },
 });

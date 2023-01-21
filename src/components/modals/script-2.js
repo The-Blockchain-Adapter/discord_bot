@@ -11,13 +11,13 @@ module.exports = {
 		const guild = await Guild.findOne({ discordId: interaction.guild.id });
 
 		//Get the command name from the modal
-		interaction.customId = interaction.customId.replace("script-", "");
-		const command = guild.scripts.find((script) => script.trigger.name == interaction.customId);
+		const name = interaction.customId.replace("script-", "");
+		const command = guild.scripts.find((script) => script.trigger.name == name);
 
 		// Get the values entered in the modal
 		var inputs = [];
-		for (var i = 0; i < command.trigger.modalInputs.length && i < 4; i++) {
-			inputs.push(interaction.fields.getTextInputValue(command.trigger.modalOutputs[i]));
+		for (var i = 0; i < command.trigger.inputs.length && i < 5; i++) {
+			inputs.push(interaction.fields.getTextInputValue(command.trigger.outputs[i]));
 		}
 
 		// Call the scriptManager with input
