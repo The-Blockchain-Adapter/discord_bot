@@ -1,5 +1,5 @@
 const Guild = require("../../schemas/guild");
-const { scriptManager } = require("../../managers/scriptManager");
+const { scriptManager } = require("../../manager/main");
 
 // Once the user enter the values in the script modal, this script runs
 module.exports = {

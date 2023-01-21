@@ -6,7 +6,7 @@ const {
 	TextInputStyle,
 } = require("discord.js");
 const Guild = require("../../schemas/guild");
-const { scriptManager } = require("../../managers/scriptManager");
+const { scriptManager } = require("../../manager/main");
 
 // Command details
 module.exports = {
