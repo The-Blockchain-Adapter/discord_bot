@@ -1,7 +1,7 @@
 module.exports = {
 	getInputs(dataOrAction, scriptInputs) {
 		const inputs = [];
-		for (var i = 0; i < dataOrAction.inputs.length; i++) {
+		for (var i = 0; i < dataOrAction.inputs?.length; i++) {
 			var input = dataOrAction.inputs[i];
 
 			// Detect if the input string is a letter, then convert it to a normal input

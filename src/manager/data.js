@@ -5,14 +5,6 @@ module.exports = {
 		// Call the view function
 		if (data.type == "view") {
 			return await view(data, inputs);
-
-			//Tell the user that this data function is not supported
-		} else {
-			await interaction.reply({
-				content: `The ${data.type} data function is not supported yet.`,
-				ephemeral: true,
-			});
-			return;
 		}
 	},
 };

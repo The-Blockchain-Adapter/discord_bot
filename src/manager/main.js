@@ -5,7 +5,7 @@ const { getInputs } = require("./inputs.js");
 module.exports = {
 	async scriptManager(interaction, client, guild, command, inputs) {
 		// Call the data functions one by one and pass the result of the previous function as input
-		for (var i = 0; i < command.data.length && i < 10; i++) {
+		for (var i = 0; i < command?.data?.length && i < 10; i++) {
 			const data = command.data[i];
 
 			// Get the inputs
@@ -41,20 +41,15 @@ module.exports = {
 
 			// Add the result to the inputs array
 			inputs.push(result);
-
-			console.log(inputs);
 		}
-		/*
+
 		// Call the action functions one by one
 		for (var i = 0; i < command.action.length && i < 10; i++) {
 			const action = command.action[i];
 
-			// Get the inputs
-			const actionInputs = getInputs(action, inputs);
-
 			// Call the action function
 			try {
-				await doAction(action, actionInputs);
+				await doAction(action, inputs, interaction);
 
 				// Return an error if the action function failed
 			} catch (error) {
@@ -67,6 +62,13 @@ module.exports = {
 				});
 				return;
 			}
-		}*/
+		}
+
+		// Final message
+		await interaction.reply({
+			content: `The ${command.trigger.name} script was executed successfully!`,
+			ephemeral: true,
+		});
+		return;
 	},
 };
