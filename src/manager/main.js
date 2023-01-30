@@ -1,29 +1,72 @@
+const { getData } = require("./data.js");
+const { doAction } = require("./action.js");
+const { getInputs } = require("./inputs.js");
+
 module.exports = {
 	async scriptManager(interaction, client, guild, command, inputs) {
-		console.log(command.trigger.name);
+		// Call the data functions one by one and pass the result of the previous function as input
+		for (var i = 0; i < command.data.length && i < 10; i++) {
+			const data = command.data[i];
+
+			// Get the inputs
+			const dataInputs = getInputs(data, inputs);
+
+			// Call the data function
+			try {
+				var result = await getData(data, dataInputs);
+
+				// Return an error if the data function failed
+			} catch (error) {
+				console.log(error);
+				await interaction.reply({
+					content: `The ${data?.name} data function failed while calling the ${command.trigger.name} script.`,
+					ephemeral: true,
+				});
+				return;
+			}
+
+			// Return an error if the data function returned null or undefined
+			if (result == null || result == undefined) {
+				await interaction.reply({
+					content: `The ${data?.name} data function returned null or undefined while calling the ${command.trigger.name} script.`,
+					ephemeral: true,
+				});
+				return;
+			}
+
+			// Convert the result to a string if it's a BigNumber
+			if (result?._isBigNumber) {
+				result = result.toString();
+			}
+
+			// Add the result to the inputs array
+			inputs.push(result);
+
+			console.log(inputs);
+		}
+		/*
+		// Call the action functions one by one
+		for (var i = 0; i < command.action.length && i < 10; i++) {
+			const action = command.action[i];
+
+			// Get the inputs
+			const actionInputs = getInputs(action, inputs);
+
+			// Call the action function
+			try {
+				await doAction(action, actionInputs);
+
+				// Return an error if the action function failed
+			} catch (error) {
+				console.log(error);
+				await interaction.reply({
+					content: `The ${action?.name} ${action.type} action function ${
+						i + 1
+					} failed while calling the ${command.trigger.name} script.`,
+					ephemeral: true,
+				});
+				return;
+			}
+		}*/
 	},
 };
-
-// const { ethers } = require("ethers");
-
-/*
-// Connect to the blockchain
-const INFURA_KEY = process.env.INFURA_KEY;
-const provider = new ethers.providers.JsonRpcProvider(
-    `https://${currentFunction.blockchain}.infura.io/v3/${INFURA_KEY}`
-);
-const abi = currentFunction.abi.replace(/\\/g, "");
-
-// Call the function
-const contract = new ethers.Contract(currentFunction.address, abi, provider);
-const data = await contract[currentFunction.name](...inputs);
-
-//Send the result
-const text = currentFunction.text;
-const content =
-    text.substring(0, text.indexOf("#")) +
-    data.toString() +
-    text.substring(text.lastIndexOf("#") + 1, text.length);
-await interaction.reply({ content });
-return;
-    */

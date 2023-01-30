@@ -66,7 +66,16 @@ module.exports = {
 		);
 		if (!command) {
 			await interaction.reply({
-				content: `This command is not registered on the server.`,
+				content: `This script is not registered on the server.`,
+				ephemeral: true,
+			});
+			return;
+		}
+
+		// Verify if the script trigger is a discord command
+		if (command.trigger.type != "command") {
+			await interaction.reply({
+				content: `This script trigger is not a discord command.`,
 				ephemeral: true,
 			});
 			return;

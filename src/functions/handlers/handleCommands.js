@@ -21,8 +21,8 @@ module.exports = (client) => {
 			}
 		}
 
-		const clientId = process.env.clientId; // Your bot ID in discord
-		const rest = new REST({ version: "9" }).setToken(process.env.token);
+		const clientId = process.env.DISCORD_CLIENT_ID; // Your bot ID in discord
+		const rest = new REST({ version: "9" }).setToken(process.env.DISCORD_BOT_SECRET);
 
 		try {
 			await rest.put(Routes.applicationCommands(clientId), {
