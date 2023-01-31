@@ -6,20 +6,20 @@ module.exports = {
 	async scriptManager(interaction, client, guild, command, inputs) {
 		// Call the data functions one by one and pass the result of the previous function as input
 		for (var i = 0; i < command?.data?.length && i < 10; i++) {
-			const data = command.data[i];
+			var data = command.data[i];
 
-			// Get the inputs
-			const dataInputs = getInputs(data, inputs);
+			// Get the updated data object with its inputs
+			const newData = getInputs(data, inputs);
 
 			// Call the data function
 			try {
-				var result = await getData(data, dataInputs);
+				var result = await getData(newData);
 
 				// Return an error if the data function failed
 			} catch (error) {
 				console.log(error);
 				await interaction.reply({
-					content: `The ${data?.name} data function failed while calling the ${command.trigger.name} script.`,
+					content: `The ${newData?.name} data function failed while calling the ${command.trigger.name} script.`,
 					ephemeral: true,
 				});
 				return;
@@ -28,7 +28,7 @@ module.exports = {
 			// Return an error if the data function returned null or undefined
 			if (result == null || result == undefined) {
 				await interaction.reply({
-					content: `The ${data?.name} data function returned null or undefined while calling the ${command.trigger.name} script.`,
+					content: `The ${newData?.name} data function returned null or undefined while calling the ${command.trigger.name} script.`,
 					ephemeral: true,
 				});
 				return;
@@ -47,15 +47,18 @@ module.exports = {
 		for (var i = 0; i < command.action.length && i < 10; i++) {
 			const action = command.action[i];
 
+			// Get the updated action object with its inputs
+			const newAction = getInputs(action, inputs);
+
 			// Call the action function
 			try {
-				await doAction(action, inputs, interaction);
+				await doAction(newAction, inputs, interaction);
 
 				// Return an error if the action function failed
 			} catch (error) {
 				console.log(error);
 				await interaction.reply({
-					content: `The ${action?.name} ${action.type} action function ${
+					content: `The ${newAction?.name} ${newAction.type} action function ${
 						i + 1
 					} failed while calling the ${command.trigger.name} script.`,
 					ephemeral: true,

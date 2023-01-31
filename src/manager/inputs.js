@@ -1,5 +1,6 @@
 module.exports = {
 	getInputs(dataOrAction, scriptInputs) {
+		// Convert the inputs to the correct type
 		const inputs = [];
 		for (var i = 0; i < dataOrAction.inputs?.length; i++) {
 			var input = dataOrAction.inputs[i];
@@ -26,6 +27,30 @@ module.exports = {
 				inputs.push(input);
 			}
 		}
-		return inputs;
+
+		// replace The dataOrAction's nested objects if there are equal to a letter
+		const objects = [
+			dataOrAction?.blockchain,
+			dataOrAction?.address,
+			dataOrAction?.name,
+			dataOrAction?.abi,
+			dataOrAction?.text,
+		];
+		for (var i = 0; i < objects.length; i++) {
+			if (objects[i]?.length == 1 && objects[i].match(/[A-Z]/i)) {
+				objects[i] = scriptInputs[objects[i].charCodeAt(0) - 65];
+			}
+		}
+
+		// store the new values in the dataOrAction object
+		dataOrAction.inputs = inputs;
+		dataOrAction.blockchain = objects[0];
+		dataOrAction.address = objects[1];
+		dataOrAction.name = objects[2];
+		dataOrAction.abi = objects[3];
+		dataOrAction.text = objects[4];
+
+		//return the inputs and the dataOrAction object
+		return dataOrAction;
 	},
 };
