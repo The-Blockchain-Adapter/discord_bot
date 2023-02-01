@@ -32,13 +32,7 @@ module.exports = {
 
 		// Replace the letter objects with the correct input
 		Object.entries(plainDataOrAction).forEach(([key, value]) => {
-			if (
-				key != "inputs" &&
-				key != "output" &&
-				key != "outputs" &&
-				value?.length == 1 &&
-				value.match(/[A-Z]/i)
-			) {
+			if (key != "inputs" && value?.length == 1 && value.match(/[A-Z]/i)) {
 				plainDataOrAction[key] = scriptInputs[value.charCodeAt(0) - 65];
 			}
 		});

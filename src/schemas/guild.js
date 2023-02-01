@@ -18,7 +18,6 @@ const dataSchema = new Schema({
 	blockchain: String,
 	abi: String,
 	inputs: [String],
-	output: String,
 });
 
 const actionSchema = new Schema({
