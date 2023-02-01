@@ -52,7 +52,7 @@ module.exports = {
 
 			// Call the action function
 			try {
-				await doAction(newAction, inputs, interaction);
+				await doAction(newAction, inputs, interaction, client);
 
 				// Return an error if the action function failed
 			} catch (error) {
