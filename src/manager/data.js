@@ -2,7 +2,7 @@ const { ethers } = require("ethers");
 const axios = require("axios");
 
 module.exports = {
-	async getData(data) {
+	async getData(data, interaction) {
 		if (data.type == "view") {
 			return await view(data);
 		}
@@ -11,6 +11,9 @@ module.exports = {
 		}
 		if (data.type == "api") {
 			return await api(data);
+		}
+		if (data.type == "guild") {
+			return await guild(data, interaction);
 		}
 	},
 };
@@ -62,6 +65,31 @@ async function api(data) {
 	// Return an error if the API returned null or undefined
 	if (result == null || result == undefined) {
 		throw new Error("The API returned null or undefined.");
+	}
+
+	// Return the result
+	return result;
+}
+
+// Get a value from the guild object
+async function guild(data, interaction) {
+	// Get the guild object
+	var result = interaction.guild;
+
+	// Get the result from the path if there is one
+	if (data.path == "/") {
+		data.path = "";
+	}
+	if (data.path != "") {
+		const path = data.path.split(".");
+		for (var i = 0; i < path.length; i++) {
+			result = result[path[i]];
+		}
+	}
+
+	// Return an error if the API returned null or undefined
+	if (result == null || result == undefined) {
+		throw new Error("The Path entered returned null or undefined.");
 	}
 
 	// Return the result

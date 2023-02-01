@@ -13,7 +13,7 @@ module.exports = {
 
 			// Call the data function
 			try {
-				var result = await getData(newData);
+				var result = await getData(newData, interaction);
 
 				// Return an error if the data function failed
 			} catch (error) {
