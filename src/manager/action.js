@@ -9,9 +9,6 @@ module.exports = {
 
 // Call a message function
 async function message(action, inputs, interaction, client, guild) {
-	console.log(action.text);
-	console.log(action.channel);
-
 	// Replace the #LETTER# in the text with the inputs that correspond to the letter
 	const text = action.text.replace(/#([A-Z])#/g, (match, letter) => {
 		const index = letter.charCodeAt(0) - 65;
