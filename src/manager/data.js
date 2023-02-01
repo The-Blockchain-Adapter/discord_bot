@@ -44,8 +44,6 @@ async function balance(data) {
 
 // Call an API
 async function api(data) {
-	console.log(data);
-
 	// Call the API
 	const response = await axios.get(data.url);
 	var result = response.data;
