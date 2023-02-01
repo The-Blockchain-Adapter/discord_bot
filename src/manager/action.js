@@ -1,32 +1,37 @@
 module.exports = {
-	async doAction(action, inputs, interaction, client) {
+	async doAction(action, inputs, interaction, client, guild) {
 		// call the message function
 		if (action.type == "message") {
-			await message(action, inputs, interaction, client);
+			await message(action, inputs, interaction, client, guild);
 		}
 	},
 };
 
 // Call a message function
-async function message(action, inputs, interaction, client) {
+async function message(action, inputs, interaction, client, guild) {
 	// Replace the #LETTER# in the text with the inputs that correspond to the letter
 	const text = action.text.replace(/#([A-Z])#/g, (match, letter) => {
 		const index = letter.charCodeAt(0) - 65;
 		return inputs[index];
 	});
 
-	action.channel = "1052170405378543690";
+	// if the channel name is #current#, send the message in the current channel
+	if (action.channel == "#current#") {
+		return interaction.channel.send(text);
 
-	// How to send a message in another channel
-	const channel = client.channels.cache.get(action.channel);
-	console.log(channel);
-	if (!channel) {
-		throw new Error(`The channel with ID ${action.channel} could not be found.`);
+		// get the real channel object from the channel name
+	} else {
+		const actualGuild = client.guilds.cache.get(guild.discordId);
+		const channel = actualGuild.channels.cache.find(
+			(channel) => channel.name === action.channel
+		);
+
+		// Throw an error if the channel doesn't exist
+		if (!channel) {
+			throw new Error(`The channel ${action.channel} could not be found.`);
+		}
+
+		// Send the message
+		return channel.send(text);
 	}
-	return channel.send(text);
 }
-
-/* BEFORE :
-	// Send the message
-	return interaction.channel.send(text);
-	*/

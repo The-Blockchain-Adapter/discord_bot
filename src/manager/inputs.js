@@ -8,7 +8,7 @@ module.exports = {
 			let input = plainDataOrAction.inputs[i];
 
 			// Detect if the input string is a letter, then convert it to a normal input
-			if (input.length == 1 && input.match(/[A-Z]/i)) {
+			if (input.length == 3 && input.match(/#([A-Z])#/i)) {
 				input = scriptInputs[input.charCodeAt(0) - 65];
 			}
 
@@ -32,7 +32,7 @@ module.exports = {
 
 		// Replace the letter objects with the correct input
 		Object.entries(plainDataOrAction).forEach(([key, value]) => {
-			if (key != "inputs" && value?.length == 1 && value.match(/[A-Z]/i)) {
+			if (key != "inputs" && value?.length == 3 && value.match(/#([A-Z])#/i)) {
 				plainDataOrAction[key] = scriptInputs[value.charCodeAt(0) - 65];
 			}
 		});
