@@ -8,7 +8,6 @@ const triggerSchema = new Schema({
 	onlyAdmin: Boolean,
 	title: String,
 	inputs: [String],
-	outputs: [String],
 });
 
 const dataSchema = new Schema({

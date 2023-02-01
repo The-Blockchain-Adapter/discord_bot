@@ -17,7 +17,7 @@ module.exports = {
 		// Get the values entered in the modal
 		var inputs = [];
 		for (var i = 0; i < command.trigger.inputs.length && i < 5; i++) {
-			inputs.push(interaction.fields.getTextInputValue(command.trigger.outputs[i]));
+			inputs.push(interaction.fields.getTextInputValue(i + " "));
 		}
 
 		// Call the scriptManager with input

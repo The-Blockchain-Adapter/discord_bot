@@ -101,7 +101,7 @@ module.exports = {
 			// Add values to enter in the modal
 			for (var i = 0; i < command.trigger.inputs.length && i < 5; i++) {
 				const input = new TextInputBuilder()
-					.setCustomId(command.trigger.outputs[i])
+					.setCustomId(i + " ")
 					.setLabel(`${command.trigger.inputs[i]}`)
 					.setRequired(true)
 					.setStyle(TextInputStyle.Short);
