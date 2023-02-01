@@ -10,10 +10,11 @@ module.exports = {
 // Call a message function
 async function message(action, inputs, interaction, client, guild) {
 	// Replace the #LETTER# in the text with the inputs that correspond to the letter
-	const text = action.text.replace(/#([A-Z])#/g, (match, letter) => {
-		const index = letter.charCodeAt(0) - 65;
-		return inputs[index];
-	});
+	// const text = action.text.replace(/#([A-Z])#/g, (match, letter) => {
+	// 	const index = letter.charCodeAt(0) - 65;
+	// 	return inputs[index];
+	// });
+	const text = action.text;
 
 	// if the channel name is #current#, send the message in the current channel
 	if (action.channel == "#current#") {

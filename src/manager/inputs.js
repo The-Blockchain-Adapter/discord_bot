@@ -7,12 +7,11 @@ module.exports = {
 		for (let i = 0; i < plainDataOrAction.inputs?.length; i++) {
 			let input = plainDataOrAction.inputs[i];
 
-			// Detect if the input string is a letter, then convert it to a normal input
-			if (input.length == 3 && input.match(/#([A-Z])#/g)) {
-				// retrieve the letter string from the string with #
-				input.replace(/#([A-Z])#/g, (match, letter) => letter);
-				// Get the input from the script inputs
-				input = scriptInputs[letter.charCodeAt(0) - 65];
+			//if input is a string, replace #LETTER# with the inputs that correspond to the letter
+			if (typeof input == "string") {
+				input = input.replace(/#([A-Z])#/g, (match, letter) => {
+					return scriptInputs[letter.charCodeAt(0) - 65];
+				});
 			}
 
 			// Detect if the input string is a boolean, then convert it to a boolean
@@ -33,13 +32,13 @@ module.exports = {
 			}
 		}
 
-		// Replace the letter objects with the correct input
+		// Check all the objects and if they contains one or mutliple #LETTER# in their string, replace them with the inputs that correspond to the letter
 		Object.entries(plainDataOrAction).forEach(([key, value]) => {
-			if (key != "inputs" && value?.length == 3 && value.match(/#([A-Z])#/g)) {
-				// retrieve the letter string from the string with #
-				const letter = value[1];
-				// replace the letter object with the correct input
-				plainDataOrAction[key] = scriptInputs[letter.charCodeAt(0) - 65];
+			if (key != "inputs") {
+				const string = value.toString();
+				plainDataOrAction[key] = string.replace(/#([A-Z])#/g, (match, letter) => {
+					return scriptInputs[letter.charCodeAt(0) - 65];
+				});
 			}
 		});
 
