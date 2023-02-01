@@ -1,13 +1,16 @@
 const { ethers } = require("ethers");
+const axios = require("axios");
 
 module.exports = {
 	async getData(data) {
-		// Call the view function
 		if (data.type == "view") {
 			return await view(data);
 		}
 		if (data.type == "balance") {
 			return await balance(data);
+		}
+		if (data.type == "api") {
+			return await api(data);
 		}
 	},
 };
@@ -37,4 +40,32 @@ async function balance(data) {
 	// get & return the user Balance using ethers
 	const balance = ethers.utils.formatEther(await provider.getBalance(data.address));
 	return balance;
+}
+
+// Call an API
+async function api(data) {
+	console.log(data);
+
+	// Call the API
+	const response = await axios.get(data.url);
+	var result = response.data;
+
+	// Get the result from the path if there is one
+	if (data.path == "/") {
+		data.path = "";
+	}
+	if (data.path != "") {
+		const path = data.path.split(".");
+		for (var i = 0; i < path.length; i++) {
+			result = result[path[i]];
+		}
+	}
+
+	// Return an error if the API returned null or undefined
+	if (result == null || result == undefined) {
+		throw new Error("The API returned null or undefined.");
+	}
+
+	// Return the result
+	return result;
 }
