@@ -31,6 +31,7 @@ module.exports = {
 				inputs.push(input);
 			}
 		}
+		plainDataOrAction.inputs = inputs;
 
 		// Check all the objects and if they contains one or mutliple #LETTER# in their string, replace them with the inputs that correspond to the letter
 		Object.entries(plainDataOrAction).forEach(([key, value]) => {
@@ -41,9 +42,6 @@ module.exports = {
 				});
 			}
 		});
-
-		// Add the converted inputs to the plainDataOrAction object
-		plainDataOrAction.inputs = inputs;
 
 		//return the inputs and the plainDataOrAction object
 		return plainDataOrAction;
